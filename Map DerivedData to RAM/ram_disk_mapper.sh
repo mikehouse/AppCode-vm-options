@@ -3,11 +3,9 @@
 VOLUME_NAME=ramdisk
 VOLUME_ROOT=/Volumes/$VOLUME_NAME
 
-if [ -d "$VOLUME_ROOT" ]; then
-	exit 0
+if [ ! -d "$VOLUME_ROOT" ]; then
+	diskutil erasevolume HFS+ $VOLUME_NAME `hdiutil attach -nomount ram://44011200` # 16 GB DISC SIZE
 fi
-
-diskutil erasevolume HFS+ $VOLUME_NAME `hdiutil attach -nomount ram://44011200` # 22.53 GB DISC SIZE
 
 XCODE_DERIVED_DATA_RAM_PATH=/Volumes/$VOLUME_NAME/Xcode/DerivedData
 
@@ -55,6 +53,52 @@ APPCODE_ROOT=~/Library/Caches/AppCode$APPCODE_VERSION
 if [ -d "$APPCODE_ROOT" ]; then
 
 	APPCODE_DERIVED_DATA_RAM_PATH=/Volumes/$VOLUME_NAME/AppCode2/DerivedData
+
+	if [ ! -d "$APPCODE_DERIVED_DATA_RAM_PATH" ]; then
+		mkdir -p "$APPCODE_DERIVED_DATA_RAM_PATH"
+	fi
+
+
+	APPCODE_DERIVED_DATA_ORIGIN_PATH=$APPCODE_ROOT/DerivedData
+
+	if [ ! -L "$APPCODE_DERIVED_DATA_ORIGIN_PATH" ]; then
+		if [ -d "$APPCODE_DERIVED_DATA_ORIGIN_PATH" ]; then
+			rm -fr "$APPCODE_DERIVED_DATA_ORIGIN_PATH"
+		fi	
+		ln -s "$APPCODE_DERIVED_DATA_RAM_PATH" "$APPCODE_DERIVED_DATA_ORIGIN_PATH"
+	fi
+	
+fi
+
+APPCODE_VERSION=2019.3
+APPCODE_ROOT=~/Library/Caches/AppCode$APPCODE_VERSION
+
+if [ -d "$APPCODE_ROOT" ]; then
+
+	APPCODE_DERIVED_DATA_RAM_PATH=/Volumes/$VOLUME_NAME/AppCode3/DerivedData
+
+	if [ ! -d "$APPCODE_DERIVED_DATA_RAM_PATH" ]; then
+		mkdir -p "$APPCODE_DERIVED_DATA_RAM_PATH"
+	fi
+
+
+	APPCODE_DERIVED_DATA_ORIGIN_PATH=$APPCODE_ROOT/DerivedData
+
+	if [ ! -L "$APPCODE_DERIVED_DATA_ORIGIN_PATH" ]; then
+		if [ -d "$APPCODE_DERIVED_DATA_ORIGIN_PATH" ]; then
+			rm -fr "$APPCODE_DERIVED_DATA_ORIGIN_PATH"
+		fi	
+		ln -s "$APPCODE_DERIVED_DATA_RAM_PATH" "$APPCODE_DERIVED_DATA_ORIGIN_PATH"
+	fi
+	
+fi
+
+APPCODE_VERSION=2020.1
+APPCODE_ROOT=~/Library/Caches/JetBrains/AppCode$APPCODE_VERSION
+
+if [ -d "$APPCODE_ROOT" ]; then
+
+	APPCODE_DERIVED_DATA_RAM_PATH=/Volumes/$VOLUME_NAME/AppCode2020.1/DerivedData
 
 	if [ ! -d "$APPCODE_DERIVED_DATA_RAM_PATH" ]; then
 		mkdir -p "$APPCODE_DERIVED_DATA_RAM_PATH"

@@ -49,7 +49,7 @@ for ver in "2019.1" "2019.2" "2019.3"; do
     fi
 done
 
-for ver in "2020.1" "2020.2"; do
+for ver in "2020.1" "2020.2" "2020.3"; do
     APPCODE_VERSION=$ver
     APPCODE_ROOT=~/Library/Caches/JetBrains/AppCode$APPCODE_VERSION
 
